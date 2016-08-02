@@ -1,17 +1,5 @@
 {
   "builders": [{
-    "type": "docker",
-    "image": "ubuntu",
-    "commit": "true"
-  }],
-  "post-processors": [
-    [
-      {
-        "type": "docker-tag",
-        "repository": "acctesthashicorp/build-configuration",
-        "tag": "0.0.1",
-        "force": "true"
-      }
-    ]
-  ]
+    "type": "amazon-ebs"
+  }]
 }
