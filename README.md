@@ -1,3 +1,3 @@
 # acctest-build-configuration
-Repository that gets linked to a build configuration in Atlas acceptance tests.
+Repository that gets linked to a build configuration in Atlas acceptance tests...
 
