@@ -1,0 +1,47 @@
+{
+	"variables": {
+		"aws_access_key_id": "{{ env `AWS_ACCESS_KEY_ID` }}",
+		"aws_secret_access_key": "{{ env `AWS_SECRET_ACCESS_KEY` }}",
+		"region": "{{ env `AWS_REGION` }}",
+		"vpc_id": "{{ env `PACKER_VPC_ID` }}",
+		"subnet_id": "{{ env `PACKER_SUBNET_ID` }}"
+	},
+	"builders": [{
+		"type": "amazon-ebs",
+		"access_key": "{{ user `aws_access_key_id` }}",
+		"secret_key": "{{ user `aws_secret_access_key` }}",
+		"region": "{{user `region`}}",
+		"spot_price_auto_product": "Linux/UNIX (Amazon VPC)",
+
+		"ssh_pty": true,
+		"instance_type": "t2.medium",
+		"vpc_id": "{{user `vpc_id` }}",
+		"subnet_id": "{{user `subnet_id` }}",
+		"associate_public_ip_address": true,
+
+		"source_ami_filter": {
+			"filters": {
+				"virtualization-type": "hvm",
+				"name": "*ubuntu-xenial-16.04-amd64-server-*",
+				"root-device-type": "ebs"
+			},
+			"owners": ["099720109477"],
+			"most_recent": true
+		},
+
+		"ssh_username": "ubuntu",
+		"ssh_timeout": "5m",
+
+		"ami_name": "acctest-sleep-{{isotime \"2006-01-02-1504\"}}"
+	}],
+	"provisioners": [
+		{
+			"type": "shell",
+			"start_retry_timeout": "10m",
+			"inline": [
+				"echo 'sleeping for 1 hour'",
+				"sleep 3600"
+			]
+		}
+	]
+}
